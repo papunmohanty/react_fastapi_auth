@@ -1,5 +1,3 @@
-from os import stat
-
 import fastapi as _fastapi
 import fastapi.security as _security
 import sqlalchemy.orm as _orm
@@ -34,8 +32,9 @@ async def generate_token(
     )
 
     if not user:
-        return _fastapi.HTTPException(
-            status_code=401, detail="Invalid Credentials"
+        raise _fastapi.HTTPException(
+            status_code=_fastapi.status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Credentials",
         )
 
     return await _services.create_jwt(user=user)
